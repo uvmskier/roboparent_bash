@@ -1,3 +1,4 @@
+#!/bin/bash
 kid="Ethan"
 dateString=$(date +'%A %B %d %Y')
 my_json="{
@@ -145,7 +146,18 @@ my_json="{
 	]
 }"
 
-source secrets.env
+hostname=$(uname -n)
+
+if [[ $hostname == "nuc1" ]]
+then
+	source /home/brian/bash_scripts_roboparent/secrets.env
+fi
+
+if [[ $hostname != "nuc1" ]]
+then
+	source secrets.env
+fi
+
 curl -X POST -H 'Content-type: application/json' --data "$my_json" "$ETHAN_SLACK_URL"
 #echo $my_json
 foo='{"text":"Hello, World!"}'
